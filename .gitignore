@@ -1,0 +1,28 @@
+# Conda environment
+mlflow_agentic_env/
+requirements.txt
+
+# MLflow experiment data and logs
+data/mlruns/
+src/notebooks/data/mlruns/
+src/notebooks/data/mlflow.db
+
+# Local MLflow database (if not needed in version control)
+mlflow.db
+
+# Jupyter notebook checkpoints and outputs
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# OS/Editor files
+.DS_Store
+*.swp
+
+#Code for generating data
+src/notebooks/data/
+src/scripts/data/

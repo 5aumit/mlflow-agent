@@ -1,0 +1,65 @@
+name: mlflow_agentic_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      # -----------------------------
+      # Core ML & Experiment Tracking
+      # -----------------------------
+      - mlflow>=2.10.0
+      - numpy>=1.26.0
+      - pandas>=2.1.0
+      - scikit-learn>=1.3.0
+
+      # -----------------------------
+      # Deterministic Analysis & Stats
+      # -----------------------------
+      - scipy>=1.11.0
+      - statsmodels>=0.14.0
+
+      # -----------------------------
+      # Agentic / LLM Orchestration
+      # -----------------------------
+      - langgraph>=0.0.40
+      - langchain-core>=0.1.35
+      - langchain-community>=0.0.30
+
+      # -----------------------------
+      # LLM Provider (Groq)
+      # -----------------------------
+      - groq>=0.5.0
+
+      # -----------------------------
+      # Data Modeling & Validation
+      # -----------------------------
+      - pydantic>=2.5.0
+      - pydantic-settings>=2.1.0
+      - typing-extensions>=4.9.0
+
+      # -----------------------------
+      # Experiment Reasoning Utilities
+      # -----------------------------
+      - networkx>=3.2.1
+      - rich>=13.7.0
+      - loguru>=0.7.2
+
+      # -----------------------------
+      # Visualization (Debug / Dev)
+      # -----------------------------
+      - matplotlib>=3.8.0
+      - seaborn>=0.13.0
+
+      # -----------------------------
+      # Dummy Data / Synthetic Runs
+      # -----------------------------
+      - faker>=22.0.0
+
+      # -----------------------------
+      # Dev & Quality-of-Life
+      # -----------------------------
+      - python-dotenv>=1.0.0
+      - tqdm>=4.66.0
+      - ipython>=8.20.0
