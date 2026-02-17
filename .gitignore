@@ -5,10 +5,10 @@ requirements.txt
 # MLflow experiment data and logs
 data/mlruns/
 src/notebooks/data/mlruns/
-src/notebooks/data/mlflow.db
+# src/notebooks/data/mlflow.db  --- IGNORE ---
 
 # Local MLflow database (if not needed in version control)
-mlflow.db
+# mlflow.db  --- IGNORE ---
 
 # Jupyter notebook checkpoints and outputs
 .ipynb_checkpoints/
@@ -26,3 +26,12 @@ __pycache__/
 #Code for generating data
 src/notebooks/data/
 src/scripts/data/
+
+#Notebooks
+src/notebooks/
+
+#Config files with sensitive info
+src/config.json
+
+#Other Stuff
+.vscode/
