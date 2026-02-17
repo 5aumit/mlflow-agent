@@ -1,20 +1,34 @@
 from abc import ABC, abstractmethod
 
+from langchain_groq import ChatGroq
+from langchain_core.tools import Tool as LangChainTool
+from typing import List
+
 class InferenceEngine(ABC):
     @abstractmethod
     def generate_response(self, prompt: str) -> str:
         """Generate a response from the inference provider given a prompt."""
         pass
 
-class GroqEngine(InferenceEngine):
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-        # Initialize Groq client here if needed
 
-    def generate_response(self, prompt: str) -> str:
-        # TODO: Implement Groq API call
-        # Example placeholder implementation
-        return f"[Groq] Response to: {prompt}"
+class GroqEngine(InferenceEngine):
+    def __init__(self, api_key: str, model: str = "moonshotai/kimi-k2-instruct", **kwargs):
+        self.api_key = api_key
+        self.model = model
+        self.generation_kwargs = kwargs
+        self.llm = ChatGroq(
+            groq_api_key=self.api_key,
+            model_name=self.model,
+            **self.generation_kwargs
+        )
+
+    def generate_response(self, prompt: str, model: str = None, **kwargs) -> str:
+        # Simple synchronous call for compatibility
+        return self.llm.invoke(prompt)
+
+    def bind_tools(self, tools: List[LangChainTool]):
+        # Return a new ChatGroq instance with tools bound, as per LangChain API
+        return self.llm.bind_tools(tools)
 
 class OpenAIEngine(InferenceEngine):
     def __init__(self, api_key: str):
