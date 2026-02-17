@@ -23,29 +23,3 @@ mlflow-analyzer/
 ├── .gitignore           # Files/folders to ignore in git
 └── README.md            # Project documentation
 ```
-
-## Getting Started
-1. **Clone the repository**
-2. **Set up the environment:**
-   ```bash
-   conda env create -f environment.yml
-   conda activate ./mlflow_agentic_env/
-   ```
-3. **Generate experiment data:**
-   - Run the Jupyter notebooks in `src/notebooks/data/` to populate MLflow logs.
-4. **Run the CLI agent:**
-   - (Coming soon) Use the CLI to ask questions about your experiments.
-
-## Inference Engine
-- Supports Groq (default), with placeholders for OpenAI and Ollama.
-- Easily extensible to other LLM providers.
-
-## Agentic System
-- Designed for integration with agent frameworks (e.g., LangGraph).
-- Agent interprets user queries, plans actions, and synthesizes answers using MLflow data and LLMs.
-
-## Contributing
-Pull requests and suggestions are welcome!
-
-## License
-MIT License
