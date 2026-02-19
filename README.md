@@ -1,13 +1,16 @@
-# MLflow Experiment Agentic Chatbot
+# Floki: MLflow Experiment Agentic Chatbot
+
+> **⚠️ Work in Progress:** This project is actively being developed. Features, structure, and documentation may change frequently.
+
+Floki is named after the legendary Viking engineer Flóki Vilgerðarson, who built innovative boats that enabled Vikings to explore new lands. This project aims to empower ML researchers to explore their experiment logs with the same spirit of discovery.
 
 A CLI-based assistant for ML experimentation, inspired by Claude Code, that helps researchers query, analyze, and gain insights from MLflow experiment logs.
+# Floki: MLflow Experiment Agentic Chatbot
 
-## Features
-- Natural language Q&A about ML experiments (regression, classification, neural nets)
-- Reads and analyzes MLflow logs for metrics, parameters, and results
-- Compares runs, detects patterns (e.g., overfitting), and summarizes findings
-- Modular inference engine supporting Groq, OpenAI, Ollama, and more
-- Extensible agentic architecture (LangGraph-ready)
+
+Floki is named after the legendary Viking engineer Flóki Vilgerðarson, who built innovative boats that enabled Vikings to explore new lands. This project aims to empower ML researchers to explore their experiment logs with the same spirit of discovery.
+
+A CLI-based assistant for ML experimentation, inspired by Claude Code, that helps researchers query, analyze, and gain insights from MLflow experiment logs.
 
 ## Project Structure
 ```
