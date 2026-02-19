@@ -3,33 +3,49 @@ LangGraph-based agent for MLflow Experiment Q&A
 ----------------------------------------------
 This agent uses LangGraph to orchestrate LLM reasoning and MLflow tool calls.
 """
+
 import os
 import json
 import sys
+import time
+import threading
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from llm.inference_engine import GroqEngine
 from mlflow_tools import data_access
+
+import logging
+# logging.getLogger("mlflow").setLevel(logging.ERROR)
+
+os.environ["MLFLOW_LOGGING_LEVEL"] = "WARNING"
 
 import asyncio
 import json
 from langchain.agents import create_agent            # correct agent factory
 from langchain.tools import tool     
 
-# Load config
-CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.json')
+
+# Load config from global location
+CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '..', 'config.json'))
 with open(CONFIG_PATH, 'r') as f:
     config = json.load(f)
 
-groq_api_key = config.get('groq_api_key')
-groq_model = config.get('groq_model', 'moonshotai/kimi-k2-instruct')
-groq_params = config.get('groq_params', {})
+# LLM selection logic
+llm_config = config.get('llm', {})
+provider = llm_config.get('provider', 'groq')
+if provider == 'groq':
+    llm = GroqEngine(
+        api_key=llm_config.get('groq_api_key'),
+        model=llm_config.get('groq_model', 'moonshotai/kimi-k2-instruct'),
+        **llm_config.get('groq_params', {})
+    ).llm
+# Add OpenAI and Ollama support here as needed
+else:
+    raise ValueError(f"Unsupported LLM provider: {provider}")
 
-# Set up inference engine
-llm = GroqEngine(api_key=groq_api_key, model=groq_model, **groq_params).llm
 mlflow_tools = data_access.get_all_tools()
 
 agent = create_agent(
-    model=llm,                       # pass model instance, not llm.generate_response
+    model=llm,
     tools=mlflow_tools,
     system_prompt="You are an MLflow experiment assistant. Use tools as needed.",
 )
@@ -41,8 +57,23 @@ def run_query(user_query: str):
     return result
 
 
+
+def loading_animation(message, duration=3):
+    spinner = ['|', '/', '-', '\\']
+    print(message, end='', flush=True)
+    print('\n', end='', flush=True)
+    for i in range(duration * 4):
+        print(f' {spinner[i % 4]}', end='\r', flush=True)
+        time.sleep(0.25)
+    print(' ' * (len(message) + 2), end='\r')
+
 def main():
-    print("LangGraph MLflow Agent CLI. Type 'exit' to quit.")
+    print("\n==============================")
+    print("  Welcome to MLflow Agent CLI  ")
+    print("==============================")
+    print("Initializing agent and loading tools...")
+    loading_animation("Starting up, please wait...", duration=3)
+    print("Agent is ready! Type 'exit' to quit.")
     while True:
         user_query = input("\n> ")
         if user_query.strip().lower() in {"exit", "quit"}:
