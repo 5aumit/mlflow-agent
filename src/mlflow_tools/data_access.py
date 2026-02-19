@@ -25,7 +25,7 @@ from langchain.tools import tool
 # logging.getLogger("mlflow").setLevel(logging.ERROR)
 os.environ["MLFLOW_LOGGING_LEVEL"] = "WARNING"
 # Load mlruns_dir from global config
-CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '..', 'config.json'))
+CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../config.json'))
 try:
     with open(CONFIG_PATH, 'r') as f:
         config = json.load(f)
