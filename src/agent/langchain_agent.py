@@ -10,7 +10,7 @@ import sys
 import time
 import threading
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from llm.inference_engine import GroqEngine
+from llm.inference_engine import GroqEngine, get_llm_from_config
 from mlflow_tools import data_access
 
 import logging
@@ -24,23 +24,16 @@ from langchain.agents import create_agent            # correct agent factory
 from langchain.tools import tool     
 
 
-# Load config from global location
-CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '..', 'config.json'))
+CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../config.json'))
+print(f"Loading config from: {CONFIG_PATH}")
 with open(CONFIG_PATH, 'r') as f:
     config = json.load(f)
 
 # LLM selection logic
 llm_config = config.get('llm', {})
-provider = llm_config.get('provider', 'groq')
-if provider == 'groq':
-    llm = GroqEngine(
-        api_key=llm_config.get('groq_api_key'),
-        model=llm_config.get('groq_model', 'moonshotai/kimi-k2-instruct'),
-        **llm_config.get('groq_params', {})
-    ).llm
-# Add OpenAI and Ollama support here as needed
-else:
-    raise ValueError(f"Unsupported LLM provider: {provider}")
+print(f"Groq API Key: {llm_config.get('groq_api_key', 'Not Set')}")
+print(f"Loading Model from config: {llm_config.get('groq_model', 'Not Set')}")
+llm = get_llm_from_config(llm_config)
 
 mlflow_tools = data_access.get_all_tools()
 
