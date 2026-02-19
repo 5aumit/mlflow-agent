@@ -11,7 +11,6 @@ class InferenceEngine(ABC):
         pass
 
 
-
 class GroqEngine(InferenceEngine):
     def __init__(self, api_key: str, model: str = "moonshotai/kimi-k2-instruct", **kwargs):
         self.api_key = api_key
@@ -24,28 +23,12 @@ class GroqEngine(InferenceEngine):
         )
 
     def generate_response(self, prompt: str, model: str = None, **kwargs) -> str:
+        # Simple synchronous call for compatibility
         return self.llm.invoke(prompt)
 
     def bind_tools(self, tools: List[LangChainTool]):
+        # Return a new ChatGroq instance with tools bound, as per LangChain API
         return self.llm.bind_tools(tools)
-
-# Add config-driven LLM engine selection utility
-def get_llm_from_config(llm_config: dict):
-    provider = llm_config.get('provider', 'groq')
-    if provider == 'groq':
-        return GroqEngine(
-            api_key=llm_config.get('groq_api_key'),
-            model=llm_config.get('groq_model', 'moonshotai/kimi-k2-instruct'),
-            **llm_config.get('groq_params', {})
-        ).llm
-    elif provider == 'openai':
-        # Placeholder for OpenAIEngine
-        raise NotImplementedError("OpenAIEngine config not implemented yet.")
-    elif provider == 'ollama':
-        # Placeholder for OllamaEngine
-        raise NotImplementedError("OllamaEngine config not implemented yet.")
-    else:
-        raise ValueError(f"Unsupported LLM provider: {provider}")
 
 class OpenAIEngine(InferenceEngine):
     def __init__(self, api_key: str):
