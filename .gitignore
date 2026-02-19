@@ -31,7 +31,7 @@ src/scripts/data/
 src/notebooks/
 
 #Config files with sensitive info
-src/config.json
+config.json
 
 #Other Stuff
 .vscode/
